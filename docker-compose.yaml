@@ -1,0 +1,9 @@
+services:
+  mysql:
+    container_name: todo-app-db
+    platform: linux/x86_64
+    image: mysql:8.0.30
+    env_file:
+      - .env
+    ports:
+      - 3306:3306
