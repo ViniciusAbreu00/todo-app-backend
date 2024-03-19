@@ -14,12 +14,14 @@ import {
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { JWTAuthGuard } from "src/auth/guards/jwt.guard";
 
 @Controller("user")
 export class UserController {
   constructor(private readonly usersService: UserService) {}
 
   @Post()
+  @UseGuards(JWTAuthGuard)
   @UsePipes(new ValidationPipe())
   async create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);

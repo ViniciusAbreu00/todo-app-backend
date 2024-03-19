@@ -57,6 +57,16 @@ export class UserService {
     const user = await this.usersRepository.findOneBy({ id });
     return user;
   }
+  /**
+   * Searches for a user by email.
+   *
+   * @param email - The email of the user to search for.
+   * @returns The user with the matching email, or null if no user was found.
+   */
+  async findByEmail(email: string) {
+    const user = await this.usersRepository.findOneBy({ email });
+    return user;
+  }
 
   /**
    * Updates an existing user in the database
