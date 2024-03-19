@@ -1,34 +1,55 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TaskService } from './task.service';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+  UseGuards,
+} from "@nestjs/common";
+import { TaskService } from "./task.service";
+import { CreateTaskDto } from "./dto/create-task.dto";
+import { UpdateTaskDto } from "./dto/update-task.dto";
+import { JWTAuthGuard } from "src/auth/guards/jwt.guard";
 
-@Controller('task')
+@Controller("task")
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.taskService.create(createTaskDto);
+  @UsePipes(new ValidationPipe())
+  @UseGuards(JWTAuthGuard)
+  async create(@Body() createTaskDto: CreateTaskDto) {
+    return await this.taskService.create(createTaskDto);
   }
 
-  @Get()
-  findAll() {
-    return this.taskService.findAll();
+  @Get(":userID")
+  @UseGuards(JWTAuthGuard)
+  async findAll(@Param("userID") userID: string) {
+    return await this.taskService.findAll(userID);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.taskService.findOne(+id);
+  @Get(":userID/:taskID")
+  @UseGuards(JWTAuthGuard)
+  async findOne(
+    @Param("userID") userID: string,
+    @Param("taskID") taskID: string
+  ) {
+    return await this.taskService.findOne(userID, taskID);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.taskService.update(+id, updateTaskDto);
+  @Patch(":id")
+  @UsePipes(new ValidationPipe())
+  @UseGuards(JWTAuthGuard)
+  update(@Param("id") id: string, @Body() updateTaskDto: UpdateTaskDto) {
+    return this.taskService.update(id, updateTaskDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.taskService.remove(+id);
   }
 }

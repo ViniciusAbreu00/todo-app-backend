@@ -10,10 +10,8 @@ services:
   mongodb:
     container_name: mongodb
     image: mongo
-    restart: always
-    volumes:
-      - ./mongodb-data:/data/db
     ports:
       - '27017:27017'
+      
     environment:
       MONGO_INITDB_DATABASE: todo_app_mongodb

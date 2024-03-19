@@ -21,18 +21,19 @@ export class UserController {
   constructor(private readonly usersService: UserService) {}
 
   @Post()
-  @UseGuards(JWTAuthGuard)
   @UsePipes(new ValidationPipe())
   async create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   @Get()
+  @UseGuards(JWTAuthGuard)
   async findAll() {
     return await this.usersService.findAll();
   }
 
   @Get(":id")
+  @UseGuards(JWTAuthGuard)
   async findOne(@Param("id") id: string) {
     return await this.usersService.findOne(id);
   }
