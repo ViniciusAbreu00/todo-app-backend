@@ -20,9 +20,6 @@ export class Task {
   description: string;
 
   @Prop()
-  dueDate: Date;
-
-  @Prop()
   userId: string;
   constructor(task: Partial<Task>) {
     Object.assign(this, task);

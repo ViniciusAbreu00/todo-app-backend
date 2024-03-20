@@ -12,9 +12,6 @@ export class UpdateTaskDto {
   @IsOptional()
   status: TaskStatus;
   @IsString()
-  @IsOptional()
-  dueDate: Date;
-  @IsString()
   @IsNotEmpty()
   userId: string;
 }

@@ -18,9 +18,6 @@ export class CreateTaskDto {
   @IsOptional()
   status: TaskStatus;
   @IsString()
-  @IsOptional()
-  dueDate: Date;
-  @IsString()
   @IsNotEmpty()
   userId: string;
 }
