@@ -1,4 +1,10 @@
-import { IsDate, IsEnum, IsNotEmpty, IsString } from "class-validator";
+import {
+  IsDate,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from "class-validator";
 import { TaskStatus } from "../schema/task.schema";
 
 export class CreateTaskDto {
@@ -6,10 +12,13 @@ export class CreateTaskDto {
   @IsNotEmpty()
   name: string;
   @IsString()
+  @IsOptional()
   description: string;
   @IsEnum(TaskStatus)
+  @IsOptional()
   status: TaskStatus;
   @IsString()
+  @IsOptional()
   dueDate: Date;
   @IsString()
   @IsNotEmpty()

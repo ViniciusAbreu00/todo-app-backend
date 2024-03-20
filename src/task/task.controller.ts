@@ -9,11 +9,13 @@ import {
   UsePipes,
   ValidationPipe,
   UseGuards,
+  Query,
 } from "@nestjs/common";
 import { TaskService } from "./task.service";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { UpdateTaskDto } from "./dto/update-task.dto";
 import { JWTAuthGuard } from "src/auth/guards/jwt.guard";
+import { TaskStatus } from "./schema/task.schema";
 
 @Controller("task")
 export class TaskController {
@@ -28,8 +30,11 @@ export class TaskController {
 
   @Get(":userID")
   @UseGuards(JWTAuthGuard)
-  async findAll(@Param("userID") userID: string) {
-    return await this.taskService.findAll(userID);
+  async findAll(
+    @Param("userID") userID: string,
+    @Query("status") status: TaskStatus[]
+  ) {
+    return await this.taskService.findAll(userID, status);
   }
 
   @Get(":userID/:taskID")

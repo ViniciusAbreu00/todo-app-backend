@@ -34,8 +34,15 @@ export class TaskService {
    * @param userID - The ID of the user to retrieve tasks for.
    * @returns An array of tasks for the specified user.
    */
-  async findAll(userID: string) {
-    const tasks = await this.taskModel.find({ userId: userID });
+  async findAll(userID: string, status: TaskStatus[]) {
+    let query = { userId: userID };
+
+    if (status?.length > 0) {
+      query["status"] = { $in: status };
+    }
+
+    const tasks = await this.taskModel.find(query);
+
     return tasks;
   }
 
